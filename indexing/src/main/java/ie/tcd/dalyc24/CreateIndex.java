@@ -18,6 +18,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.search.similarities.ClassicSimilarity;
 
 public class CreateIndex {
     private static final String INDEX_DIRECTORY = "../index";
@@ -52,6 +53,7 @@ public class CreateIndex {
     private static void createIndex(String cranfieldFile, Analyzer analyzer, String indexDir) throws IOException {
         Directory directory = FSDirectory.open(Paths.get(indexDir));
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        config.setSimilarity(new ClassicSimilarity()); // Set TF-IDF similarity
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         IndexWriter iwriter = new IndexWriter(directory, config);
 

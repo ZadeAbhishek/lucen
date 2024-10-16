@@ -22,6 +22,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.similarities.ClassicSimilarity;
 
 public class QueryIndex {
 
@@ -64,6 +65,7 @@ public class QueryIndex {
 
         DirectoryReader ireader = DirectoryReader.open(directory);
         IndexSearcher isearcher = new IndexSearcher(ireader);
+        isearcher.setSimilarity(new ClassicSimilarity()); // Set TF-IDF similarity
         List<String> results = new ArrayList<>();
 
         for (int i = 0; i < queries.size(); i++) {
