@@ -68,6 +68,10 @@ To evaluate the results using `trec_eval`, run the following commands for each r
 
 ## 5. Final Evaluation Metrics
 
+Here are the updated final results for all three tokenization methods, including all precision metrics based on the latest evaluation:
+
+---
+
 ### **Simple Tokenization**
 
 | Metric                    | Value    |
@@ -75,20 +79,20 @@ To evaluate the results using `trec_eval`, run the following commands for each r
 | num_q                      | 225      |
 | num_ret                    | 11250    |
 | num_rel                    | 1612     |
-| num_rel_ret                | 863      |
-| MAP                        | 0.2543   |
-| GM_MAP                     | 0.0947   |
-| Rprec                      | 0.2782   |
-| Bpref                      | 0.5897   |
-| Reciprocal Rank            | 0.5032   |
-| Precision @ 5              | 0.2916   |
-| Precision @ 10             | 0.2169   |
-| Precision @ 15             | 0.1721   |
-| Precision @ 20             | 0.1453   |
-| Precision @ 30             | 0.1108   |
-| Precision @ 100            | 0.0384   |
-| Precision @ 200            | 0.0192   |
-| Precision @ 500            | 0.0077   |
+| num_rel_ret                | 860      |
+| MAP                        | 0.2531   |
+| GM_MAP                     | 0.0827   |
+| Rprec                      | 0.2698   |
+| Bpref                      | 0.5786   |
+| Reciprocal Rank            | 0.5082   |
+| Precision @ 5              | 0.2898   |
+| Precision @ 10             | 0.2084   |
+| Precision @ 15             | 0.1639   |
+| Precision @ 20             | 0.1391   |
+| Precision @ 30             | 0.1077   |
+| Precision @ 100            | 0.0382   |
+| Precision @ 200            | 0.0191   |
+| Precision @ 500            | 0.0076   |
 | Precision @ 1000           | 0.0038   |
 
 ---
@@ -100,20 +104,20 @@ To evaluate the results using `trec_eval`, run the following commands for each r
 | num_q                      | 225      |
 | num_ret                    | 11250    |
 | num_rel                    | 1612     |
-| num_rel_ret                | 864      |
-| MAP                        | 0.2539   |
-| GM_MAP                     | 0.0953   |
-| Rprec                      | 0.2766   |
-| Bpref                      | 0.5901   |
-| Reciprocal Rank            | 0.5016   |
-| Precision @ 5              | 0.2942   |
-| Precision @ 10             | 0.2164   |
-| Precision @ 15             | 0.1721   |
-| Precision @ 20             | 0.1453   |
-| Precision @ 30             | 0.1111   |
-| Precision @ 100            | 0.0384   |
-| Precision @ 200            | 0.0192   |
-| Precision @ 500            | 0.0077   |
+| num_rel_ret                | 859      |
+| MAP                        | 0.2523   |
+| GM_MAP                     | 0.0850   |
+| Rprec                      | 0.2717   |
+| Bpref                      | 0.5812   |
+| Reciprocal Rank            | 0.5026   |
+| Precision @ 5              | 0.2889   |
+| Precision @ 10             | 0.2076   |
+| Precision @ 15             | 0.1659   |
+| Precision @ 20             | 0.1378   |
+| Precision @ 30             | 0.1077   |
+| Precision @ 100            | 0.0382   |
+| Precision @ 200            | 0.0191   |
+| Precision @ 500            | 0.0076   |
 | Precision @ 1000           | 0.0038   |
 
 ---
@@ -125,20 +129,20 @@ To evaluate the results using `trec_eval`, run the following commands for each r
 | num_q                      | 225      |
 | num_ret                    | 11250    |
 | num_rel                    | 1612     |
-| num_rel_ret                | 814      |
-| MAP                        | 0.2296   |
-| GM_MAP                     | 0.0676   |
-| Rprec                      | 0.2448   |
-| Bpref                      | 0.5521   |
-| Reciprocal Rank            | 0.4929   |
-| Precision @ 5              | 0.2676   |
-| Precision @ 10             | 0.1947   |
-| Precision @ 15             | 0.1532   |
-| Precision @ 20             | 0.1342   |
-| Precision @ 30             | 0.1033   |
-| Precision @ 100            | 0.0362   |
-| Precision @ 200            | 0.0181   |
-| Precision @ 500            | 0.0072   |
-| Precision @ 1000           | 0.0036   |
+| num_rel_ret                | 786      |
+| MAP                        | 0.2235   |
+| GM_MAP                     | 0.0639   |
+| Rprec                      | 0.2381   |
+| Bpref                      | 0.5374   |
+| Reciprocal Rank            | 0.4925   |
+| Precision @ 5              | 0.2622   |
+| Precision @ 10             | 0.1818   |
+| Precision @ 15             | 0.1493   |
+| Precision @ 20             | 0.1273   |
+| Precision @ 30             | 0.0994   |
+| Precision @ 100            | 0.0349   |
+| Precision @ 200            | 0.0175   |
+| Precision @ 500            | 0.0070   |
+| Precision @ 1000           | 0.0035   |
 
 ---
