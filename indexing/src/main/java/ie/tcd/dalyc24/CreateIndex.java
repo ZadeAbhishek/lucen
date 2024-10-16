@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -26,17 +28,34 @@ public class CreateIndex {
             System.exit(1);
         }
 
-        Analyzer analyzer = new StandardAnalyzer();
+        String cranfieldFile = args[0];
 
-        Directory directory = FSDirectory.open(Paths.get(INDEX_DIRECTORY));
+        // Define analyzers
+        Analyzer[] analyzers = {
+            new StandardAnalyzer(),
+            new SimpleAnalyzer(),
+            new WhitespaceAnalyzer()
+        };
 
+        // Define index directory names corresponding to each analyzer
+        String[] indexDirs = {
+            INDEX_DIRECTORY + "_standard",
+            INDEX_DIRECTORY + "_simple",
+            INDEX_DIRECTORY + "_whitespace"
+        };
+
+        for (int i = 0; i < analyzers.length; i++) {
+            createIndex(cranfieldFile, analyzers[i], indexDirs[i]);
+        }
+    }
+
+    private static void createIndex(String cranfieldFile, Analyzer analyzer, String indexDir) throws IOException {
+        Directory directory = FSDirectory.open(Paths.get(indexDir));
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         IndexWriter iwriter = new IndexWriter(directory, config);
 
-        String cranfieldFile = args[0];
         List<Document> documents = parseCranfieldFile(cranfieldFile);
-
         iwriter.addDocuments(documents);
 
         iwriter.close();
@@ -51,71 +70,61 @@ public class CreateIndex {
         StringBuilder contentBuilder = new StringBuilder();
         String currentField = "";
 
-    for (String line : lines) {
-        line = line.trim();
+        for (String line : lines) {
+            line = line.trim();
 
-        if (line.startsWith(".I")) {
+            if (line.startsWith(".I")) {
+                if (currentDoc != null) {
+                    if (contentBuilder.length() > 0 && !currentField.isEmpty()) {
+                        currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
+                    }
+                    documents.add(currentDoc);
+                }
 
-            if (currentDoc != null) {
+                currentDoc = new Document();
+                contentBuilder.setLength(0);
 
-                if (contentBuilder.length() > 0 && !currentField.isEmpty()) {
+                String docId = line.substring(3).trim();
+                currentDoc.add(new StringField("docID", docId, Field.Store.YES));
+                currentField = "";
+            } else if (line.startsWith(".T")) {
+                if (currentField.equals("content")) {
+                    currentDoc.add(new TextField("content", contentBuilder.toString(), Field.Store.YES));
+                }
+                currentField = "title";
+                contentBuilder.setLength(0);
+            } else if (line.startsWith(".A")) {
+                if (!currentField.isEmpty()) {
                     currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
                 }
-                documents.add(currentDoc);
+                currentField = "author";
+                contentBuilder.setLength(0);
+            } else if (line.startsWith(".B")) {
+                if (!currentField.isEmpty()) {
+                    currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
+                }
+                currentField = "bibliography";
+                contentBuilder.setLength(0);
+            } else if (line.startsWith(".W")) {
+                if (!currentField.isEmpty()) {
+                    currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
+                }
+                currentField = "content";
+                contentBuilder.setLength(0);
+            } else {
+                if (contentBuilder.length() > 0) {
+                    contentBuilder.append(" ");
+                }
+                contentBuilder.append(line);
             }
-
-            currentDoc = new Document();
-            contentBuilder.setLength(0);
-
-            String docId = line.substring(3).trim();
-            currentDoc.add(new StringField("docID", docId, Field.Store.YES));
-            currentField = "";
-        } else if (line.startsWith(".T")) {
-            if (currentField.equals("content")) {
-                currentDoc.add(new TextField("content", contentBuilder.toString(), Field.Store.YES));
-            }
-            currentField = "title";
-            contentBuilder.setLength(0);
-        } else if (line.startsWith(".A")) {
-            if (!currentField.isEmpty()) {
-                currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
-            }
-            currentField = "author";
-            contentBuilder.setLength(0);
-        } else if (line.startsWith(".B")) {
-            if (!currentField.isEmpty()) {
-                currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
-            }
-            currentField = "bibliography";
-            contentBuilder.setLength(0);
-        } else if (line.startsWith(".W")) {
-            if (!currentField.isEmpty()) {
-                currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
-            }
-            currentField = "content";
-            contentBuilder.setLength(0);
-        } else {
-            if (contentBuilder.length() > 0) {
-                contentBuilder.append(" ");
-            }
-            contentBuilder.append(line);
         }
-    }
-    if (currentDoc != null) {
-        if (!currentField.isEmpty() && contentBuilder.length() > 0) {
-            currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
+
+        if (currentDoc != null) {
+            if (!currentField.isEmpty() && contentBuilder.length() > 0) {
+                currentDoc.add(new TextField(currentField, contentBuilder.toString(), Field.Store.YES));
+            }
+            documents.add(currentDoc);
         }
-        documents.add(currentDoc);
-    }
-    
-    for (Document doc : documents) {
-        System.out.println("Document ID: " + doc.get("docID"));
-        System.out.println("Title: " + doc.get("title"));
-        System.out.println("Author: " + doc.get("author"));
-        System.out.println("Bibliography: " + doc.get("bibliography"));
-        System.out.println("Content: " + doc.get("content"));
-        System.out.println("----------------------------------");
-    }
 
         return documents;
     }

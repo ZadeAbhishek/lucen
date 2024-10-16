@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.store.Directory;
@@ -23,14 +25,12 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 
 public class QueryIndex {
 
-    private static final String INDEX_DIRECTORY = "../index";
-
     private Analyzer analyzer;
     private Directory directory;
 
-    public QueryIndex() throws IOException {
-        this.analyzer = new StandardAnalyzer();
-        this.directory = FSDirectory.open(Paths.get(INDEX_DIRECTORY));
+    public QueryIndex(String indexDirectory, Analyzer analyzer) throws IOException {
+        this.analyzer = analyzer;
+        this.directory = FSDirectory.open(Paths.get(indexDirectory));
     }
 
     private List<String> readQueries(String queryFilePath) throws IOException {
@@ -56,24 +56,6 @@ public class QueryIndex {
         }
 
         return queries;
-    }
-
-    public void printAllDocuments() throws IOException {
-        DirectoryReader ireader = DirectoryReader.open(directory);
-        System.out.println("Printing all documents in the index...");
-
-        for (int i = 0; i < ireader.maxDoc(); i++) {
-            Document doc = ireader.document(i);
-            System.out.println("Document ID: " + doc.get("docID"));
-            System.out.println("Filename: " + doc.get("filename"));
-            System.out.println("Title: " + doc.get("title"));
-            System.out.println("Author: " + doc.get("author"));
-            System.out.println("Bibliography: " + doc.get("bibliography"));
-            System.out.println("Content: " + doc.get("content"));
-            System.out.println("----------------------------------");
-        }
-
-        ireader.close();
     }
 
     public void queryIndex(String queryFilePath, String resultsFilePath) throws IOException {
@@ -126,15 +108,35 @@ public class QueryIndex {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("Usage: java QueryIndex <query file> <results file>");
+        if (args.length < 3) {
+            System.out.println("Usage: java QueryIndex <query file> <results file> <analyzer type>");
             System.exit(1);
         }
 
         String queryFile = args[0];
         String resultsFile = args[1];
-        QueryIndex qi = new QueryIndex();
-        qi.printAllDocuments();
+        String analyzerType = args[2];
+
+        Analyzer analyzer;
+
+        switch (analyzerType.toLowerCase()) {
+            case "standard":
+                analyzer = new StandardAnalyzer();
+                break;
+            case "simple":
+                analyzer = new SimpleAnalyzer();
+                break;
+            case "whitespace":
+                analyzer = new WhitespaceAnalyzer();
+                break;
+            default:
+                System.out.println("Unknown analyzer type: " + analyzerType);
+                return;
+        }
+
+        String indexDirectory = "../index_" + analyzerType.toLowerCase();
+
+        QueryIndex qi = new QueryIndex(indexDirectory, analyzer);
         qi.queryIndex(queryFile, resultsFile);
         qi.shutdown();
     }
