@@ -16,6 +16,7 @@ mvn package
 
 ## 2. Run Indexing
 
+#### For preprocessing we are using  **Apache OpenNLP**
 To run the indexing, use the following command:
 
 ```bash
@@ -74,24 +75,28 @@ Here are the updated final results for all three tokenization methods, including
 
 ### **Simple Tokenization**
 
+Here are the updated tables for **Simple**, **Standard**, and **Whitespace** tokenization models based on the latest evaluation results:
+
+---
+
 | Metric                    | Value    |
 |----------------------------|----------|
 | num_q                      | 225      |
 | num_ret                    | 11250    |
 | num_rel                    | 1612     |
-| num_rel_ret                | 860      |
-| MAP                        | 0.2531   |
-| GM_MAP                     | 0.0827   |
-| Rprec                      | 0.2698   |
-| Bpref                      | 0.5786   |
-| Reciprocal Rank            | 0.5082   |
-| Precision @ 5              | 0.2898   |
-| Precision @ 10             | 0.2084   |
+| num_rel_ret                | 857      |
+| MAP                        | 0.2410   |
+| GM_MAP                     | 0.0820   |
+| Rprec                      | 0.2585   |
+| Bpref                      | 0.5813   |
+| Reciprocal Rank            | 0.4817   |
+| Precision @ 5              | 0.2738   |
+| Precision @ 10             | 0.1996   |
 | Precision @ 15             | 0.1639   |
-| Precision @ 20             | 0.1391   |
-| Precision @ 30             | 0.1077   |
-| Precision @ 100            | 0.0382   |
-| Precision @ 200            | 0.0191   |
+| Precision @ 20             | 0.1380   |
+| Precision @ 30             | 0.1079   |
+| Precision @ 100            | 0.0381   |
+| Precision @ 200            | 0.0190   |
 | Precision @ 500            | 0.0076   |
 | Precision @ 1000           | 0.0038   |
 
@@ -104,17 +109,17 @@ Here are the updated final results for all three tokenization methods, including
 | num_q                      | 225      |
 | num_ret                    | 11250    |
 | num_rel                    | 1612     |
-| num_rel_ret                | 859      |
-| MAP                        | 0.2523   |
-| GM_MAP                     | 0.0850   |
-| Rprec                      | 0.2717   |
-| Bpref                      | 0.5812   |
-| Reciprocal Rank            | 0.5026   |
-| Precision @ 5              | 0.2889   |
-| Precision @ 10             | 0.2076   |
-| Precision @ 15             | 0.1659   |
+| num_rel_ret                | 860      |
+| MAP                        | 0.2377   |
+| GM_MAP                     | 0.0816   |
+| Rprec                      | 0.2590   |
+| Bpref                      | 0.5828   |
+| Reciprocal Rank            | 0.4695   |
+| Precision @ 5              | 0.2702   |
+| Precision @ 10             | 0.1991   |
+| Precision @ 15             | 0.1636   |
 | Precision @ 20             | 0.1378   |
-| Precision @ 30             | 0.1077   |
+| Precision @ 30             | 0.1083   |
 | Precision @ 100            | 0.0382   |
 | Precision @ 200            | 0.0191   |
 | Precision @ 500            | 0.0076   |
@@ -129,19 +134,19 @@ Here are the updated final results for all three tokenization methods, including
 | num_q                      | 225      |
 | num_ret                    | 11250    |
 | num_rel                    | 1612     |
-| num_rel_ret                | 786      |
-| MAP                        | 0.2235   |
-| GM_MAP                     | 0.0639   |
-| Rprec                      | 0.2381   |
-| Bpref                      | 0.5374   |
-| Reciprocal Rank            | 0.4925   |
-| Precision @ 5              | 0.2622   |
-| Precision @ 10             | 0.1818   |
-| Precision @ 15             | 0.1493   |
-| Precision @ 20             | 0.1273   |
-| Precision @ 30             | 0.0994   |
-| Precision @ 100            | 0.0349   |
-| Precision @ 200            | 0.0175   |
+| num_rel_ret                | 792      |
+| MAP                        | 0.2287   |
+| GM_MAP                     | 0.0622   |
+| Rprec                      | 0.2433   |
+| Bpref                      | 0.5441   |
+| Reciprocal Rank            | 0.4815   |
+| Precision @ 5              | 0.2658   |
+| Precision @ 10             | 0.1867   |
+| Precision @ 15             | 0.1538   |
+| Precision @ 20             | 0.1300   |
+| Precision @ 30             | 0.1004   |
+| Precision @ 100            | 0.0352   |
+| Precision @ 200            | 0.0176   |
 | Precision @ 500            | 0.0070   |
 | Precision @ 1000           | 0.0035   |
 
